@@ -6,7 +6,8 @@
   <title>Confirmation - EGUIMOS</title>
   <style>
     body {
-      background-color: #f2f2f2;
+      background-color: #121212;
+      color: #e0e0e0;
       font-family: 'Segoe UI', sans-serif;
       margin: 0;
       padding: 0;
@@ -14,21 +15,22 @@
     }
 
     .container {
-      background: #ffffff;
+      background: #1e1e1e;
       max-width: 600px;
       margin: 60px auto;
       padding: 30px;
       border-radius: 20px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
     }
 
     .logo {
       width: 250px;
       margin-bottom: 20px;
+      filter: brightness(0) invert(1);
     }
 
     h2 {
-      color: #333;
+      color: #ffffff;
     }
 
     #message {
@@ -60,7 +62,7 @@
 <body>
   <div class="container">
     <img src="https://clementmin.github.io/Confirmation_RH/assets/LOGO_BANDEAU_HORIZONTAL_TRANS.png" alt="EGUIMOS" class="logo">
-    <h2>⚠️ Confirmez votre choix</h2>
+    <h2>🔐 Confirmation sécurisée</h2>
     <p id="message"></p>
 
     <a id="confirm-link" class="btn btn-confirm" href="#">✅ Oui, confirmer</a>
