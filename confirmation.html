@@ -1,0 +1,37 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Confirmation</title>
+</head>
+<body style="font-family: sans-serif; text-align: center; padding-top: 50px;">
+  <h2>⚠️ Confirmez votre choix</h2>
+  <p>Souhaitez-vous vraiment <strong><span id="decision-text"></span></strong> cette demande ?</p>
+
+  <a id="confirm-link" href="#">
+    <button style="padding: 10px 20px; font-size: 16px;">✅ Oui, confirmer</button>
+  </a>
+
+  <br><br>
+
+  <a href="https://google.com">
+    <button style="padding: 10px 20px; font-size: 16px;">❌ Non, annuler</button>
+  </a>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const idDemande = params.get('idDemande');
+    const decision = params.get('decision');
+    const validateur = params.get('validateur');
+
+    // Affiche le texte de la décision
+    document.getElementById("decision-text").innerText = decision;
+
+    // Construit l’URL finale vers le Webhook Make
+    const webhook = "https://hook.eu2.make.com/exs8mfmcz4hmvdnvmadfbag8iyr9gd2t";
+    const finalURL = `${webhook}?idDemande=${idDemande}&validateur=${validateur}&decision=${decision}`;
+    document.getElementById("confirm-link").href = finalURL;
+  </script>
+</body>
+</html>
