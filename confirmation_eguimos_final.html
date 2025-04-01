@@ -1,0 +1,101 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Confirmation - EGUIMOS</title>
+  <style>
+    body {
+      background-color: #f2f2f2;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    .container {
+      background: #ffffff;
+      max-width: 600px;
+      margin: 60px auto;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .logo {
+      width: 250px;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      color: #333;
+    }
+
+    #message {
+      font-size: 18px;
+      margin: 20px 0 30px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 24px;
+      margin: 10px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      color: white;
+      text-decoration: none;
+    }
+
+    .btn-confirm {
+      background-color: #4CAF50;
+    }
+
+    .btn-cancel {
+      background-color: #f44336;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="https://clementmin.github.io/Confirmation_RH/assets/LOGO_BANDEAU_HORIZONTAL_TRANS.png" alt="EGUIMOS" class="logo">
+    <h2>⚠️ Confirmez votre choix</h2>
+    <p id="message"></p>
+
+    <a id="confirm-link" class="btn btn-confirm" href="#">✅ Oui, confirmer</a>
+    <br>
+    <a href="https://google.com" class="btn btn-cancel">❌ Non, annuler</a>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const idDemande = params.get('idDemande');
+    const decision = params.get('decision');
+    const validateur = params.get('validateur');
+
+    // Message personnalisé
+    let message = "";
+    if (validateur === "Responsable") {
+      message = `Souhaitez-vous vraiment <strong>${decision}</strong> cette demande en tant que <strong>Responsable</strong> ?`;
+    } else if (validateur === "RH") {
+      message = `Souhaitez-vous vraiment <strong>${decision}</strong> cette demande en tant que <strong>RH</strong> ?`;
+    } else {
+      message = `Souhaitez-vous vraiment <strong>${decision}</strong> cette demande ?`;
+    }
+    document.getElementById("message").innerHTML = message;
+
+    // Choix du webhook selon validateur
+    let webhook = "";
+    if (validateur === "Responsable") {
+      webhook = "https://hook.eu2.make.com/cdvpjynndse5ohbkkqlbqketk6tj3bik";
+    } else if (validateur === "RH") {
+      webhook = "https://hook.eu2.make.com/exs8mfmcz4hmvdnvmadfbag8iyr9gd2t";
+    }
+
+    // Construction de l'URL finale
+    const finalURL = `${webhook}?idDemande=${idDemande}&validateur=${validateur}&decision=${decision}`;
+    document.getElementById("confirm-link").href = finalURL;
+  </script>
+</body>
+</html>
