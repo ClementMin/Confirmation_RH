@@ -83,8 +83,8 @@
       const message = `Souhaitez-vous <strong>valider ou refuser</strong> la demande <strong>${idDemande}</strong> en tant que <strong>${role}</strong> ?`;
       document.getElementById("message").innerHTML = message;
 
-      const confirmURL = `${webhookBase}?idDemande=${idDemande}&validateur=${role}&decision=accepter`;
-      const cancelURL = `${webhookBase}?idDemande=${idDemande}&validateur=${role}&decision=refuser`;
+      const confirmURL = `${webhookBase}?idDemande=${idDemande}&validateur=${role}&decision=Approuver`;
+      const cancelURL = `${webhookBase}?idDemande=${idDemande}&validateur=${role}&decision=Refuser`;
 
       document.getElementById("confirm-link").href = confirmURL;
       document.getElementById("cancel-link").href = cancelURL;
