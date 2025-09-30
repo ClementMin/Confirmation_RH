@@ -23,15 +23,9 @@
     .logo {
       width: 500px;
       margin-bottom: 20px;
-      animation: fadeInUp 1s ease-out;
     }
-    h2 {
-      color: #ffffff;
-    }
-    #message {
-      font-size: 18px;
-      margin: 20px 0 30px;
-    }
+    h2 { color: #ffffff; }
+    #message { font-size: 18px; margin: 20px 0 30px; }
     .btn {
       display: inline-block;
       padding: 12px 24px;
@@ -42,90 +36,62 @@
       cursor: pointer;
       color: white;
       text-decoration: none;
-      animation: fadeInUp 1s ease-out;
     }
-    .btn-confirm {
-      background-color: #4CAF50;
-    }
-    .btn-cancel {
-      background-color: #f44336;
-    }
-    @media (max-width: 600px) {
-      .container {
-        width: 90%;
-        padding: 20px;
-      }
-      .logo {
-        width: 80%;
-      }
-      h2 {
-        font-size: 20px;
-      }
-      #message {
-        font-size: 16px;
-      }
-      .btn {
-        width: 100%;
-        font-size: 16px;
-      }
-    }
+    .btn-rh { background-color: #2196F3; }
+    .btn-resp { background-color: #9C27B0; }
+    .btn-confirm { background-color: #4CAF50; }
+    .btn-cancel { background-color: #f44336; }
     @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <img src="https://clementmin.github.io/Confirmation_RH/assets/LOGO_BANDEAU_HORIZONTAL_TRANS.png" alt="EGUIMOS" class="logo">
-    <h2>🔐 Confirmation sécurisée</h2>
-    <p id="message"></p>
-    <a id="confirm-link" class="btn btn-confirm" href="#">✅ Oui, confirmer</a>
-    <br>
-    <a href="https://google.com" class="btn btn-cancel">❌ Non, annuler</a>
-    <div style="margin-top: 30px;">
-      <h3>📄 Aperçu du récapitulatif PDF :</h3>
-      <iframe id="pdfViewer" width="100%" height="600" style="border: none; border-radius: 10px;"></iframe>
+    <h2>🔐 Choisissez votre rôle</h2>
+    <div id="step1">
+      <button class="btn btn-rh" onclick="chooseRole('RH')">👤 Je suis RH</button>
+      <button class="btn btn-resp" onclick="chooseRole('Responsable')">👔 Je suis Responsable</button>
+    </div>
+
+    <div id="step2" style="display:none;">
+      <h2>🔐 Confirmation sécurisée</h2>
+      <p id="message"></p>
+      <a id="confirm-link" class="btn btn-confirm" href="#">✅ Oui, confirmer</a>
+      <br>
+      <a id="cancel-link" class="btn btn-cancel" href="#">❌ Non, refuser</a>
+      <div style="margin-top: 30px;">
+        <h3>📄 Aperçu du récapitulatif PDF :</h3>
+        <iframe id="pdfViewer" width="100%" height="600" style="border: none; border-radius: 10px;"></iframe>
+      </div>
     </div>
   </div>
+
   <script>
     const params = new URLSearchParams(window.location.search);
     const idDemande = params.get('idDemande');
-    const decision = params.get('decision');
-    const validateur = params.get('validateur');
-    const pdfID = params.get('pdfID'); // Récupération du File ID du PDF depuis Google Drive
+    const pdfID = params.get('pdfID');
 
-    // Message personnalisé
-    let message = "";
-    if (validateur === "Responsable") {
-      message = `Souhaitez-vous vraiment <strong>${decision}</strong> cette demande en tant que <strong>Responsable</strong> ?`;
-    } else if (validateur === "RH") {
-      message = `Souhaitez-vous vraiment <strong>${decision}</strong> cette demande en tant que <strong>RH</strong> ?`;
-    } else {
-      message = `Souhaitez-vous vraiment <strong>${decision}</strong> cette demande ?`;
-    }
-    document.getElementById("message").innerHTML = message;
+    const webhookBase = "http://10.0.0.31.nip.io:5678/webhook-test/1332623e-04a2-46c4-9299-9d165351ac48";
 
-    // Choix du webhook selon validateur
-    let webhook = "";
-    if (validateur === "Responsable") {
-      webhook = "http://localhost:5678/webhook/e8978c9a-8e16-4dbf-bdb3-46f532d96bb3";
-    } else if (validateur === "RH") {
-      webhook = "http://localhost:5678/webhook/547e4e83-5e72-4a4e-ab0e-0a5d0d36085a";
-    }
-    // Construction de l'URL finale pour la validation
-    const finalURL = `${webhook}?idDemande=${idDemande}&validateur=${validateur}&decision=${decision}`;
-    document.getElementById("confirm-link").href = finalURL;
+    function chooseRole(role) {
+      document.getElementById("step1").style.display = "none";
+      document.getElementById("step2").style.display = "block";
 
-    // Affichage dynamique du PDF depuis Google Drive
-    if (pdfID) {
-      document.getElementById("pdfViewer").src = `https://drive.google.com/file/d/${pdfID}/preview`;
+      const message = `Souhaitez-vous <strong>valider ou refuser</strong> la demande <strong>${idDemande}</strong> en tant que <strong>${role}</strong> ?`;
+      document.getElementById("message").innerHTML = message;
+
+      const confirmURL = `${webhookBase}?idDemande=${idDemande}&validateur=${role}&decision=accepter`;
+      const cancelURL = `${webhookBase}?idDemande=${idDemande}&validateur=${role}&decision=refuser`;
+
+      document.getElementById("confirm-link").href = confirmURL;
+      document.getElementById("cancel-link").href = cancelURL;
+
+      if (pdfID) {
+        document.getElementById("pdfViewer").src = `https://drive.google.com/file/d/${pdfID}/preview`;
+      }
     }
   </script>
 </body>
