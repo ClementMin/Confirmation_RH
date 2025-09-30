@@ -52,8 +52,8 @@
     <img src="https://clementmin.github.io/Confirmation_RH/assets/LOGO_BANDEAU_HORIZONTAL_TRANS.png" alt="EGUIMOS" class="logo">
     <h2>🔐 Choisissez votre rôle</h2>
     <div id="step1">
-      <button class="btn btn-rh" onclick="chooseRole('RH')">👤 Je suis RH</button>
-      <button class="btn btn-resp" onclick="chooseRole('Responsable')">👔 Je suis Responsable</button>
+      <button class="btn btn-rh" onclick="chooseRole('RH')"> Je suis RH</button>
+      <button class="btn btn-resp" onclick="chooseRole('Responsable')"> Je suis Responsable</button>
     </div>
 
     <div id="step2" style="display:none;">
